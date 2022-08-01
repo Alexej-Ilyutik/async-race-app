@@ -1,0 +1,32 @@
+{
+  "env": {
+    "es6": true,
+    "browser": true,
+    "node": true
+  },
+  "extends": ["airbnb-typescript/base", "eslint:recommended", "plugin:@typescript-eslint/recommended", "prettier"],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "plugins": ["prettier", "import","@typescript-eslint"],
+  "ignorePatterns": ["*.config.js", "node_modules/", "dist/"],
+  "rules": {
+    "max-len": ["warn", { "code": 120 }],
+    "indent": [
+      "warn",
+      2,
+      {
+        "SwitchCase": 1
+      }
+    ],
+    "@typescript-eslint/indent": [
+      "warn",
+      2,
+      {
+        "SwitchCase": 1
+      }
+    ],
+    "import/prefer-default-export": "off"
+  }
+}

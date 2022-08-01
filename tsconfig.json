@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "commonjs",
+    "allowJs": true,
+    "sourceMap": true,
+    "outDir": "./dist/",
+    "downlevelIteration": true,
+    "strict": true,
+    "noImplicitAny": true,
+
+    "strictFunctionTypes": true,
+
+    "strictPropertyInitialization": true,
+    "alwaysStrict": true,
+
+    "moduleResolution": "node",
+
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
+  }
+}
