@@ -1,0 +1,129 @@
+.header {
+  text-align: center;
+  width: 100%;
+  background-color: var(--main-color);
+}
+
+.header-title {
+  line-height: 6rem;
+  font-size: 4rem;
+  font-weight: 700;
+  letter-spacing: 0.6rem;
+}
+
+.main {
+  min-height: calc(100vh - 13rem);
+  display: flex;
+  width: 100%;
+  margin: 0 auto;
+  border-right: 0.5rem solid var(--main-color);
+  border-top: 0.5rem solid var(--text-color);
+  border-bottom: 0.5rem solid var(--text-color);
+}
+
+.tools {
+  min-height: inherit;
+  width: 38rem;
+  background-color: var(--main-color);
+  padding: 5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+  .tools__pages {
+    display: flex;
+    justify-content: space-between;
+    width: 24.2rem;
+    margin: 0 auto;
+    .tools__garage-btn {
+      border-radius: 0.5rem 0 0 0.5rem;
+    }
+    .tools__winners-btn {
+      border-radius: 0 0.5rem 0.5rem 0;
+    }
+    .tools__garage-btn,
+    .tools__winners-btn {
+      height: 5rem;
+      width: 12rem;
+      font-size: 2.2rem;
+    }
+  }
+}
+
+.form-btn {
+  width: 10rem;
+  height: 3.4rem;
+  font-size: 1.8rem;
+}
+
+.tools__forms {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  h2 {
+    font-size: 3rem;
+  }
+}
+
+.form {
+  width: 100%;
+  padding: 0.4rem;
+  border-radius: 0.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--bg-color);
+
+  .input {
+    height: 3rem;
+    width: 16rem;
+    border: 0;
+  }
+
+  .color {
+    height: 3rem;
+    border: 0;
+    border-radius: 0.3rem;
+  }
+}
+
+.control {
+  display: flex;
+  justify-content: space-between;
+
+  .race-btn,
+  .reset-btn,
+  .generate-btn {
+    height: 4.5rem;
+    width: 10rem;
+    font-size: 2rem;
+    border-radius: .4rem;
+  }
+}
+
+.footer {
+  background-color: var(--main-color);
+  padding: 0.8rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  height: 7rem;
+  .footer__link {
+    width: 15.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: inherit;
+    background-color: inherit;
+    img {
+      background-color: inherit;
+      width: 3rem;
+    }
+    a {
+      font-size: 1.8rem;
+    }
+  }
+  p {
+    font-size: 2rem;
+  }
+}

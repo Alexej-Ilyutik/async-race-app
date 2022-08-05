@@ -17,8 +17,7 @@ const devServer = isDev =>
         },
       };
 
-const esLintPlugin = isDev =>
-  isDev ? [] : [new ESLintPlugin({ extensions: ['ts', 'js'] })];
+const esLintPlugin = isDev => (isDev ? [] : [new ESLintPlugin({ extensions: ['ts', 'js'] })]);
 
 module.exports = ({ development }) => ({
   mode: development ? 'development' : 'production',
@@ -57,9 +56,6 @@ module.exports = ({ development }) => ({
       },
     ],
   },
-  experiments: {
-    topLevelAwait: true,
-  },
   plugins: [
     ...esLintPlugin(development),
     new MiniCssExtractPlugin({ filename: '[name].[contenthash].css' }),
@@ -68,12 +64,15 @@ module.exports = ({ development }) => ({
       template: path.resolve(__dirname, './src/index.html'),
     }),
     new CopyPlugin({
-      patterns: [{ from: 'public' }],
+      patterns: [{ from: 'src/assets', to: 'assets' }],
     }),
     new CleanWebpackPlugin({ cleanStaleWebpackAssets: false }),
   ],
   resolve: {
     extensions: ['.ts', '.js'],
+    alias: {
+      '~': path.resolve(__dirname, './src'),
+    },
   },
   ...devServer(development),
 });
