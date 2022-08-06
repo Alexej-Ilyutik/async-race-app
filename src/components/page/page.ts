@@ -50,8 +50,8 @@ export const renderPage = (): void => {
           <li class="control__item" ><button class="btn generate-btn" id="generate">Generate</button></li>
       </ul>
       </aside>
-      <article class="main__feed feed">
-        <div id="garage" class="garage">Garage</div>
+      <article class="main__feed garage">
+        <div id="garage" class="garage__container"></div>
       </article>
     </main>
     <footer class="footer">

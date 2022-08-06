@@ -56,6 +56,9 @@ module.exports = ({ development }) => ({
       },
     ],
   },
+  experiments: {
+    topLevelAwait: true,
+  },
   plugins: [
     ...esLintPlugin(development),
     new MiniCssExtractPlugin({ filename: '[name].[contenthash].css' }),

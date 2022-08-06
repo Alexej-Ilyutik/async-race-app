@@ -1,14 +1,13 @@
 {
   "compilerOptions": {
-    "target": "es6",
-    "module": "commonjs",
+    "target": "es2017",
+    "module": "esnext",
     "allowJs": true,
     "sourceMap": true,
     "outDir": "./dist/",
     "downlevelIteration": true,
     "strict": true,
     "noImplicitAny": true,
-
     "strictFunctionTypes": true,
 
     "strictPropertyInitialization": true,
