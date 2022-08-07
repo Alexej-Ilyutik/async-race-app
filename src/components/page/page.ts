@@ -1,4 +1,5 @@
 import './page.scss';
+import { renderGarage } from '../garage/garage';
 
 export const renderPage = (): void => {
   const pageContent = `
@@ -51,7 +52,7 @@ export const renderPage = (): void => {
       </ul>
       </aside>
       <article class="main__feed garage">
-        <div id="garage" class="garage__container"></div>
+        <div id="garage" class="garage__container">${renderGarage()}</div>
       </article>
     </main>
     <footer class="footer">

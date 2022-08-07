@@ -11,3 +11,7 @@ export type Cars = {
 };
 
 
+export type AnyCar = {
+  name: string;
+  color: string;
+};
