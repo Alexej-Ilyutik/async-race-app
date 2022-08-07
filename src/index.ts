@@ -8,6 +8,7 @@ import './style.scss';
 import { getCars } from './services/api';
 import store from './services/store';
 renderPage();
+await updateGarage();
 
 let selectedCar: Car;
 
@@ -31,9 +32,10 @@ createForm.addEventListener('submit', async event => {
   await getCreateCar(car);
   await updateGarage();
 
+
   garage.innerHTML = renderGarage();
   nameInput.value = '';
-  colorInput.value = '';
+  colorInput.value = '#fff';
 });
 
 
@@ -75,9 +77,56 @@ const removeBtnClick = async (target: HTMLElement) => {
   garage.innerHTML = renderGarage();
 };
 
+console.log(store);
+
+
+const prevBtnClick = async () => {
+      store.carsPage --;
+      await updateGarage();
+
+      garage.innerHTML = renderGarage();
+};
+
+const nextBtnClick = async () => {
+  store.carsPage++;
+  await updateGarage();
+
+  garage.innerHTML = renderGarage();
+};
+
+// const prevBtnClick = async () => {
+//   switch (store.view) {
+//     case 'garage': {
+//       store.carsPage -= 1;
+//       await updateGarage();
+
+//       const garage = document.getElementById('garage') as HTMLDivElement;
+//       garage.innerHTML = renderGarage();
+//       break;
+//     }
+
+//     default:
+//   }
+// };
+
+// const nextBtnClick = async () => {
+//   switch (store.view) {
+//     case 'garage': {
+//       store.carsPage += 1;
+//       await updateGarage();
+//       const garage = document.getElementById('garage') as HTMLDivElement;
+
+//       garage.innerHTML = renderGarage();
+//       break;
+//     }
+
+//     default:
+//   }
+// };
+
+
 root.addEventListener('click', async event => {
   const target = <HTMLElement>event.target;
-
 
 
   if (target.classList.contains('car__select-btn')) {
@@ -87,5 +136,17 @@ root.addEventListener('click', async event => {
   if (target.classList.contains('car__remove-btn')) {
     removeBtnClick(target);
   }
+
+   if (target.classList.contains('prev-button')) {
+    console.log('prev');
+
+     prevBtnClick();
+   }
+
+   if (target.classList.contains('next-button')) {
+    console.log('next');
+
+     nextBtnClick();
+   }
 
 });
