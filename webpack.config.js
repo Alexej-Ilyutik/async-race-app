@@ -5,15 +5,19 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
 
+const srcPath = path.resolve(__dirname, 'src');
+
 const devServer = isDev =>
   !isDev
     ? {}
     : {
         devServer: {
           open: true,
-          hot: true,
-          port: 4040,
-          contentBase: path.join(__dirname, 'public'),
+          port: 'auto',
+          static: {
+            directory: srcPath,
+            watch: true,
+          },
         },
       };
 

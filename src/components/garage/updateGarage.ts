@@ -8,13 +8,9 @@ export const updateGarage = async (): Promise<void> => {
 
   const nextBtn = document.getElementById('next') as HTMLButtonElement;
   nextBtn.disabled = store.carsPage * 7 >= Number(store.carsCount);
-  console.log(store.carsPage * 7 >= Number(store.carsCount));
-  console.log(nextBtn);
 
 
   const prevBtn = document.getElementById('prev') as HTMLButtonElement;
   prevBtn.disabled = store.carsPage <= 1;
-  console.log(store.carsPage <= 1);
-  console.log(prevBtn);
 
 };

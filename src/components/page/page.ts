@@ -53,6 +53,10 @@ export const renderPage = (): void => {
       </aside>
       <article class="main__feed garage">
         <div id="garage" class="garage__container">${renderGarage()}</div>
+        <div class="garage__pagination">
+          <button class="btn prev-button" id="prev" disabled>Prev Page</button>
+          <button class="btn next-button" id="next" disabled>Next Page</button>
+        </div>
       </article>
     </main>
     <footer class="footer">

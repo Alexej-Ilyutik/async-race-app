@@ -3,10 +3,11 @@ import { renderGarage } from './components/garage/garage';
 import { updateGarage } from './components/garage/updateGarage';
 import { getCreateCar, updateCar, getCarById, deleteCarById } from './services/api';
 import { Car } from './shared/types';
+import { generateRandomCars } from './shared/utils/generateCars';
 import './style.scss';
 
-import { getCars } from './services/api';
 import store from './services/store';
+
 renderPage();
 await updateGarage();
 
@@ -32,17 +33,14 @@ createForm.addEventListener('submit', async event => {
   await getCreateCar(car);
   await updateGarage();
 
-
   garage.innerHTML = renderGarage();
   nameInput.value = '';
-  colorInput.value = '#fff';
+  colorInput.value = '#ffffff';
 });
-
 
 updateForm.addEventListener('submit', async event => {
   event.preventDefault();
 
-  const updateBtn = document.getElementById('update-btn') as HTMLButtonElement;
   const nameInput = document.getElementById('update-name') as HTMLInputElement;
   const colorInput = document.getElementById('update-color') as HTMLInputElement;
 
@@ -56,7 +54,7 @@ updateForm.addEventListener('submit', async event => {
   updateBtn.disabled = true;
   nameInput.disabled = true;
   colorInput.disabled = true;
-  colorInput.value = '';
+  colorInput.value = '#ffffff';
 });
 
 const selectBtnClick = async (target: HTMLElement) => {
@@ -73,61 +71,38 @@ const removeBtnClick = async (target: HTMLElement) => {
   const id = Number(target.id.split('remove-car-')[1]);
   await deleteCarById(id);
   await updateGarage();
-  const garage = document.getElementById('garage') as HTMLDivElement;
+
   garage.innerHTML = renderGarage();
 };
 
-console.log(store);
-
-
 const prevBtnClick = async () => {
-      store.carsPage --;
-      await updateGarage();
-
-      garage.innerHTML = renderGarage();
-};
-
-const nextBtnClick = async () => {
-  store.carsPage++;
+  store.carsPage -= 1;
   await updateGarage();
 
   garage.innerHTML = renderGarage();
 };
 
-// const prevBtnClick = async () => {
-//   switch (store.view) {
-//     case 'garage': {
-//       store.carsPage -= 1;
-//       await updateGarage();
+const nextBtnClick = async () => {
+  store.carsPage += 1;
+  await updateGarage();
 
-//       const garage = document.getElementById('garage') as HTMLDivElement;
-//       garage.innerHTML = renderGarage();
-//       break;
-//     }
+  garage.innerHTML = renderGarage();
+};
 
-//     default:
-//   }
-// };
+const generateBtnClick = async (event: MouseEvent) => {
+  const generateBtn = <HTMLButtonElement>event.target;
+  generateBtn.disabled = true;
 
-// const nextBtnClick = async () => {
-//   switch (store.view) {
-//     case 'garage': {
-//       store.carsPage += 1;
-//       await updateGarage();
-//       const garage = document.getElementById('garage') as HTMLDivElement;
+  const generatedCars = generateRandomCars();
 
-//       garage.innerHTML = renderGarage();
-//       break;
-//     }
-
-//     default:
-//   }
-// };
-
+  await Promise.all(generatedCars.map(async car => getCreateCar(car)));
+  await updateGarage();
+  garage.innerHTML = renderGarage();
+  generateBtn.disabled = false;
+};
 
 root.addEventListener('click', async event => {
   const target = <HTMLElement>event.target;
-
 
   if (target.classList.contains('car__select-btn')) {
     selectBtnClick(target);
@@ -137,16 +112,15 @@ root.addEventListener('click', async event => {
     removeBtnClick(target);
   }
 
-   if (target.classList.contains('prev-button')) {
-    console.log('prev');
+  if (target.classList.contains('prev-button')) {
+    prevBtnClick();
+  }
 
-     prevBtnClick();
-   }
+  if (target.classList.contains('next-button')) {
+    nextBtnClick();
+  }
 
-   if (target.classList.contains('next-button')) {
-    console.log('next');
-
-     nextBtnClick();
-   }
-
+  if (target.classList.contains('generate-btn')) {
+    generateBtnClick(event);
+  }
 });
