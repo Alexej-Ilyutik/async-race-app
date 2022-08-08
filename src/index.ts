@@ -4,6 +4,8 @@ import { updateGarage } from './components/garage/updateGarage';
 import { getCreateCar, updateCar, getCarById, deleteCarById } from './services/api';
 import { Car } from './shared/types';
 import { generateRandomCars } from './shared/utils/generateCars';
+import { race } from './shared/utils/race';
+import { startDriving, stopDriving } from './shared/utils/driving';
 import './style.scss';
 
 import store from './services/store';
@@ -35,7 +37,7 @@ createForm.addEventListener('submit', async event => {
 
   garage.innerHTML = renderGarage();
   nameInput.value = '';
-  colorInput.value = '#ffffff';
+  colorInput.value = '#61B0FA';
 });
 
 updateForm.addEventListener('submit', async event => {
@@ -54,7 +56,7 @@ updateForm.addEventListener('submit', async event => {
   updateBtn.disabled = true;
   nameInput.disabled = true;
   colorInput.disabled = true;
-  colorInput.value = '#ffffff';
+  colorInput.value = '#61B0FA';
 });
 
 const selectBtnClick = async (target: HTMLElement) => {
@@ -101,6 +103,28 @@ const generateBtnClick = async (event: MouseEvent) => {
   generateBtn.disabled = false;
 };
 
+const raceBtnClick = async (event: MouseEvent) => {
+  const raceBtn = <HTMLButtonElement>event.target;
+
+  raceBtn.disabled = true;
+
+  const resetBtn = document.getElementById('reset') as HTMLButtonElement;
+  resetBtn.disabled = false;
+
+  await race(startDriving);
+};
+
+const resetBtnClick = async (event: MouseEvent) => {
+  const resetBtn = <HTMLButtonElement>event.target;
+
+  resetBtn.disabled = true;
+
+  store.cars.map(({ id }) => stopDriving(id));
+
+  const raceBtn = document.getElementById('race') as HTMLButtonElement;
+  raceBtn.disabled = false;
+};
+
 root.addEventListener('click', async event => {
   const target = <HTMLElement>event.target;
 
@@ -122,5 +146,19 @@ root.addEventListener('click', async event => {
 
   if (target.classList.contains('generate-btn')) {
     generateBtnClick(event);
+  } else if (target.classList.contains('race-btn')) {
+    raceBtnClick(event);
+  } else if (target.classList.contains('reset-btn')) {
+    resetBtnClick(event);
+  }
+
+  if (target.classList.contains('start-engine-btn')) {
+    const id = Number(target.id.split('start-engine-car-')[1]);
+    startDriving(id);
+  }
+
+  if (target.classList.contains('stop-engine-btn')) {
+    const id = Number(target.id.split('stop-engine-car-')[1]);
+    stopDriving(id);
   }
 });

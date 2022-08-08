@@ -1,4 +1,4 @@
-import { Cars, Car, AnyCar } from '../shared/types';
+import { Cars, Car, AnyCar, Engine } from '../shared/types';
 
 const BASE_URL = 'http://localhost:3000';
 
@@ -41,3 +41,26 @@ export const updateCar = async (id: number, body: AnyCar): Promise<void> =>
 
 export const deleteCarById = async (id: number): Promise<Car> =>
   (await fetch(`${garage}/${id}`, { method: 'DELETE' })).json();
+
+// race
+
+export const getStartEngine = async (id: number): Promise<Engine> =>
+  (
+    await fetch(`${BASE_URL}/engine?id=${id}&status=started`, {
+      method: 'PATCH',
+    })
+  ).json();
+
+export const getStopEngine = async (id: number): Promise<Engine> =>
+  (
+    await fetch(`${BASE_URL}/engine?id=${id}&status=stopped`, {
+      method: 'PATCH',
+    })
+  ).json();
+
+export const getDriveStatus = async (id: number): Promise<{ success: boolean }> => {
+  const res = await fetch(`${BASE_URL}/engine?id=${id}&status=drive`, {
+    method: 'PATCH',
+  }).catch();
+  return res.status !== 200 ? { success: false } : { ...(await res.json()) };
+};

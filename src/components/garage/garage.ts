@@ -9,3 +9,4 @@ export const renderGarage = (): string => `
       ${store.cars.map(car => `<li class="garage__item car">${renderCar(car)}</li>`).join('')}
     </ul>
 `;
+
