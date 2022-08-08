@@ -1,0 +1,37 @@
+table {
+  margin: 0 auto;
+  border: 0.5rem solid var(--main-color);
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+th {
+  background: var(--main-color);
+}
+
+th,
+td {
+  border-style: solid;
+  font-size: 1.5rem;
+  color: var(--text-color);
+  border-width: 0 1px 1px 0;
+  border-color: var(--main-color);
+  padding: 1rem 2rem;
+}
+
+td {
+  background: var(--btn-disable);
+}
+
+.table-button {
+  cursor: pointer;
+  user-select: none;
+}
+
+.table-button.asc::after {
+  content: '  ↑';
+}
+
+.table-button.desc::after {
+  content: '  ↓';
+}

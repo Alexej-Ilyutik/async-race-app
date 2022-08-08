@@ -1,11 +1,12 @@
 import { renderPage } from './components/page/page';
 import { renderGarage } from './components/garage/garage';
 import { updateGarage } from './components/garage/updateGarage';
-import { getCreateCar, updateCar, getCarById, deleteCarById } from './services/api';
+import { getCreateCar, updateCar, getCarById, deleteCarById, saveWinner, deleteWinner } from './services/api';
 import { Car } from './shared/types';
 import { generateRandomCars } from './shared/utils/generateCars';
 import { race } from './shared/utils/race';
 import { startDriving, stopDriving } from './shared/utils/driving';
+import { renderWinners, updateWinners, setSortOrder } from './components/winners/winners';
 import './style.scss';
 
 import store from './services/store';
@@ -23,7 +24,13 @@ const selectCarName = document.getElementById('update-name') as HTMLInputElement
 const selectCarColor = document.getElementById('update-color') as HTMLInputElement;
 const updateBtn = document.getElementById('update-btn') as HTMLButtonElement;
 
-const garage = document.getElementById('garage') as HTMLDivElement;
+const garage = document.getElementById('garage-page') as HTMLDivElement;
+const winners = document.getElementById('winners-page') as HTMLDivElement;
+
+const garagePage = document.getElementById('garage-page') as HTMLDivElement;
+const winnersPage = document.getElementById('winners-page') as HTMLDivElement;
+
+const winMessage = document.getElementById('win-message') as HTMLElement;
 
 createForm.addEventListener('submit', async event => {
   event.preventDefault();
@@ -73,22 +80,48 @@ const removeBtnClick = async (target: HTMLElement) => {
   const id = Number(target.id.split('remove-car-')[1]);
   await deleteCarById(id);
   await updateGarage();
-
+  await deleteWinner(id);
   garage.innerHTML = renderGarage();
 };
 
 const prevBtnClick = async () => {
-  store.carsPage -= 1;
-  await updateGarage();
+  switch (store.view) {
+    case 'garage': {
+      store.carsPage -= 1;
+      await updateGarage();
 
-  garage.innerHTML = renderGarage();
+      garage.innerHTML = renderGarage();
+      break;
+    }
+    case 'winners': {
+      store.winnersPage -= 1;
+      await updateWinners();
+
+      winners.innerHTML = renderWinners();
+      break;
+    }
+    default:
+  }
 };
 
 const nextBtnClick = async () => {
-  store.carsPage += 1;
-  await updateGarage();
+  switch (store.view) {
+    case 'garage': {
+      store.carsPage += 1;
+      await updateGarage();
 
-  garage.innerHTML = renderGarage();
+      garage.innerHTML = renderGarage();
+      break;
+    }
+    case 'winners': {
+      store.winnersPage += 1;
+      await updateWinners();
+
+      winners.innerHTML = renderWinners();
+      break;
+    }
+    default:
+  }
 };
 
 const generateBtnClick = async (event: MouseEvent) => {
@@ -111,7 +144,14 @@ const raceBtnClick = async (event: MouseEvent) => {
   const resetBtn = document.getElementById('reset') as HTMLButtonElement;
   resetBtn.disabled = false;
 
-  await race(startDriving);
+  const winner = await race(startDriving);
+  winMessage.innerHTML = `${winner.name} won in ${winner.time} seconds!`;
+  winMessage.classList.remove('hidden');
+  await saveWinner(winner);
+
+  setTimeout(() => {
+    winMessage.classList.add('hidden');
+  }, 3000);
 };
 
 const resetBtnClick = async (event: MouseEvent) => {
@@ -121,8 +161,30 @@ const resetBtnClick = async (event: MouseEvent) => {
 
   store.cars.map(({ id }) => stopDriving(id));
 
+  winMessage.classList.add('hidden');
+
   const raceBtn = document.getElementById('race') as HTMLButtonElement;
   raceBtn.disabled = false;
+};
+
+const garageBtnClick = async () => {
+  await updateGarage();
+
+  store.view = 'garage';
+
+  garagePage.style.display = 'block';
+  winnersPage.style.display = 'none';
+};
+
+const winnersBtnClick = async () => {
+  winnersPage.style.display = 'block';
+  garagePage.style.display = 'none';
+
+  await updateWinners();
+
+  store.view = 'winners';
+
+  winnersPage.innerHTML = renderWinners();
 };
 
 root.addEventListener('click', async event => {
@@ -150,6 +212,10 @@ root.addEventListener('click', async event => {
     raceBtnClick(event);
   } else if (target.classList.contains('reset-btn')) {
     resetBtnClick(event);
+  } else if (target.classList.contains('tools__garage-btn')) {
+    garageBtnClick();
+  } else if (target.classList.contains('tools__winners-btn')) {
+    winnersBtnClick();
   }
 
   if (target.classList.contains('start-engine-btn')) {
@@ -160,5 +226,11 @@ root.addEventListener('click', async event => {
   if (target.classList.contains('stop-engine-btn')) {
     const id = Number(target.id.split('stop-engine-car-')[1]);
     stopDriving(id);
+  }
+
+  if (target.classList.contains('table-wins')) {
+    setSortOrder('wins');
+  } else if (target.classList.contains('table-time')) {
+    setSortOrder('time');
   }
 });

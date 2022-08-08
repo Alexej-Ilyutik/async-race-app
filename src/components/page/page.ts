@@ -1,5 +1,6 @@
 import './page.scss';
 import { renderGarage } from '../garage/garage';
+import { renderWinners } from '../winners/winners';
 
 export const renderPage = (): void => {
   const pageContent = `
@@ -52,13 +53,16 @@ export const renderPage = (): void => {
       </ul>
       </aside>
       <article class="main__feed garage">
-        <div id="garage" class="garage__container">${renderGarage()}</div>
+        <div id="garage-page" class="garage__container">${renderGarage()}</div>
+        <div id="winners-page" class="winners__container">${renderWinners()}</div>
         <div class="garage__pagination">
           <button class="btn prev-button" id="prev" disabled>Prev Page</button>
           <button class="btn next-button" id="next" disabled>Next Page</button>
         </div>
+        <div class="garage__message hidden" id="win-message"></div>
       </article>
     </main>
+
     <footer class="footer">
          <div class="footer__link">
           <img src="./assets/github.svg" alt="GitHub" />

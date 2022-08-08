@@ -23,7 +23,7 @@
 
 .tools {
   min-height: inherit;
-  width: 48rem;
+  min-width: 38rem;
   background-color: var(--main-color);
   padding: 5rem 2rem;
   display: flex;
@@ -130,3 +130,33 @@
     font-size: 2rem;
   }
 }
+
+.winners__container {
+  display: none;
+}
+
+.garage__message {
+  position: absolute;
+  top: 40%;
+  left: calc(50% - 20rem);
+  width: 50rem;
+  text-align: center;
+  background-color: var(--btn-start);
+  font-size: 4.2rem;
+  padding: 1rem 2rem;
+}
+
+.hidden {
+  display: none;
+}
+
+ .subtitle {
+      font-size: 3rem;
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+ .subtitle__page {
+      font-size: 2rem;
+      text-align: center;
+      margin-bottom: 1rem;
+    }
