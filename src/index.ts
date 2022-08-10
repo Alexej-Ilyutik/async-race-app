@@ -1,7 +1,16 @@
 import { renderPage } from './components/page/page';
 import { renderGarage } from './components/garage/garage';
 import { updateGarage } from './components/garage/updateGarage';
-import { getCreateCar, updateCar, getCarById, deleteCarById, saveWinner, deleteWinner } from './services/api';
+import {
+  getCreateCar,
+  updateCar,
+  getCarById,
+  getAllWinner,
+  deleteCarById,
+  saveWinner,
+  createWinner,
+  deleteWinner,
+} from './services/api';
 import { Car } from './shared/types';
 import { generateRandomCars } from './shared/utils/generateCars';
 import { race } from './shared/utils/race';
@@ -144,10 +153,22 @@ const raceBtnClick = async (event: MouseEvent) => {
   const resetBtn = document.getElementById('reset') as HTMLButtonElement;
   resetBtn.disabled = false;
 
+  const arrWinners = await getAllWinner();
+  const newArr = arrWinners.map(obj => obj.id);
+
   const winner = await race(startDriving);
+
+  if (newArr.includes(winner.id)) {
+    await saveWinner(winner);
+  }else{
+    await createWinner({
+      id: winner.id,
+      wins: 1,
+      time: winner.time,
+    });
+  }
   winMessage.innerHTML = `${winner.name} won in ${winner.time} seconds!`;
   winMessage.classList.remove('hidden');
-  await saveWinner(winner);
 
   setTimeout(() => {
     winMessage.classList.add('hidden');

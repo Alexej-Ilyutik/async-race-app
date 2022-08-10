@@ -100,7 +100,7 @@ export const getWinners = async ({
 
 export const getWinner = async (id: number): Promise<Winner> => (await fetch(`${winners}/${id}`)).json();
 
-export const getWinnerStatus = async (id: number): Promise<number> => (await fetch(`${winners}/${id}`)).status;
+export const getAllWinner = async (): Promise<Winner[]> => (await fetch(`${winners}`)).json();
 
 export const createWinner = async (body: Winner): Promise<void> =>
   (
@@ -128,20 +128,12 @@ export const updateWinner = async (id: number, body: Winner): Promise<void> =>
   ).json();
 
 export const saveWinner = async ({ id, time }: { id: number; time: number }): Promise<void> => {
-  const winnerStatus = await getWinnerStatus(id);
 
-  if (winnerStatus === 404) {
-    await createWinner({
-      id,
-      wins: 1,
-      time,
-    });
-  } else {
-    const winner = await getWinner(id);
-    await updateWinner(id, {
-      id,
-      wins: winner.wins + 1,
-      time: time < winner.time ? time : winner.time,
-    });
-  }
+  const winner = await getWinner(id);
+  await updateWinner(id, {
+    id,
+    wins: winner.wins + 1,
+    time: time < winner.time ? time : winner.time,
+  });
+
 };
